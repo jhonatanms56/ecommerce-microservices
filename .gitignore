@@ -2,7 +2,6 @@
 .gradle/
 build/
 **/build/
-out/
 
 # IntelliJ IDEA
 .idea/
