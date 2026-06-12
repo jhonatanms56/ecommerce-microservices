@@ -1,0 +1,17 @@
+{
+  "customerId": "customer-001",
+  "items": [
+    {
+      "productId": "prod-001",
+      "productName": "Wireless Keyboard",
+      "quantity": 2,
+      "unitPrice": 49.99
+    },
+    {
+      "productId": "prod-002",
+      "productName": "Mouse",
+      "quantity": 1,
+      "unitPrice": 29.99
+    }
+  ]
+}

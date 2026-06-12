@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Exec(find)",
-      "Exec(git status)"
+      "Exec(git status)",
+      "Exec(minikube status)"
     ]
   }
 }

@@ -1,0 +1,61 @@
+.form-card {
+  max-width: 800px;
+  margin-bottom: 24px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.item-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    flex: 1;
+    min-width: 140px;
+
+    &.small {
+      flex: 0 0 100px;
+    }
+  }
+}
+
+.add-btn {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.divider {
+  margin: 16px 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.error {
+  color: red;
+  margin-bottom: 8px;
+}
+
+.success-card {
+  max-width: 800px;
+  border-left: 4px solid var(--mat-sys-primary);
+
+  .success-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    h3 {
+      margin: 0;
+    }
+  }
+}

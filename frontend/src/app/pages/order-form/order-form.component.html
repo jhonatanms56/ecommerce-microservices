@@ -1,0 +1,90 @@
+<h2>Create Order</h2>
+
+<mat-card class="form-card">
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Customer ID</mat-label>
+        <input matInput formControlName="customerId" placeholder="e.g. customer-001" />
+        <mat-icon matSuffix>person</mat-icon>
+        @if (form.get('customerId')?.hasError('required') && form.get('customerId')?.touched) {
+          <mat-error>Customer ID is required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-divider class="divider" />
+      <h3>Items</h3>
+
+      <div formArrayName="items">
+        @for (item of items.controls; track i; let i = $index) {
+          <div class="item-row" [formGroupName]="i">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Product ID</mat-label>
+              <input matInput formControlName="productId" placeholder="e.g. prod-001" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Product Name</mat-label>
+              <input matInput formControlName="productName" placeholder="e.g. Keyboard" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="small">
+              <mat-label>Qty</mat-label>
+              <input matInput formControlName="quantity" type="number" min="1" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="small">
+              <mat-label>Unit Price</mat-label>
+              <span matTextPrefix>$&nbsp;</span>
+              <input matInput formControlName="unitPrice" type="number" min="0.01" step="0.01" />
+            </mat-form-field>
+
+            <button mat-icon-button color="warn" type="button"
+                    (click)="removeItem(i)" [disabled]="items.length === 1">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+          </div>
+        }
+      </div>
+
+      <button mat-stroked-button type="button" (click)="addItem()" class="add-btn">
+        <mat-icon>add</mat-icon> Add Item
+      </button>
+
+      <mat-divider class="divider" />
+
+      @if (error()) {
+        <p class="error">{{ error() }}</p>
+      }
+
+      <div class="actions">
+        <button mat-flat-button type="submit"
+                [disabled]="form.invalid || submitting()">
+          @if (submitting()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            Create Order
+          }
+        </button>
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>
+
+@if (success()) {
+  <mat-card class="success-card">
+    <mat-card-content>
+      <div class="success-header">
+        <mat-icon color="primary">check_circle</mat-icon>
+        <h3>Order Created Successfully!</h3>
+      </div>
+      <p><strong>Order ID:</strong> {{ success()!.id }}</p>
+      <p><strong>Status:</strong> {{ success()!.status }}</p>
+      <p><strong>Total:</strong> {{ success()!.totalAmount | currency }}</p>
+    </mat-card-content>
+  </mat-card>
+}

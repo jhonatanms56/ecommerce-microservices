@@ -1,0 +1,65 @@
+<h2>Orders</h2>
+
+<div class="search-bar">
+  <mat-form-field appearance="outline">
+    <mat-label>Customer ID</mat-label>
+    <input matInput [(ngModel)]="customerId" placeholder="e.g. customer-001"
+           (keyup.enter)="searchOrders()" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <button mat-flat-button (click)="searchOrders()" [disabled]="!customerId.trim()">
+    Search
+  </button>
+</div>
+
+@if (loading()) {
+  <div class="spinner-container">
+    <mat-spinner diameter="48" />
+  </div>
+}
+
+@if (error()) {
+  <p class="error">{{ error() }}</p>
+}
+
+@if (orders().length > 0) {
+  <mat-table [dataSource]="orders()" class="orders-table">
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>Order ID</mat-header-cell>
+      <mat-cell *matCellDef="let order">{{ order.id | slice:0:8 }}...</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="customerId">
+      <mat-header-cell *matHeaderCellDef>Customer</mat-header-cell>
+      <mat-cell *matCellDef="let order">{{ order.customerId }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let order">
+        <mat-chip [color]="getStatusColor(order.status)" highlighted>
+          {{ order.status }}
+        </mat-chip>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="totalAmount">
+      <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+      <mat-cell *matCellDef="let order">{{ order.totalAmount | currency }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="createdAt">
+      <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+      <mat-cell *matCellDef="let order">{{ order.createdAt | date:'medium' }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let row; columns: displayedColumns;" />
+
+  </mat-table>
+}
+
+@if (!loading() && searched() && orders().length === 0) {
+  <p class="no-results">No orders found for <strong>{{ customerId }}</strong>.</p>
+}

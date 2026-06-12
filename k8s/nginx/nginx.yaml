@@ -8,18 +8,22 @@ data:
     http {
       server {
         listen 80;
+        resolver 10.96.0.10 valid=5s;
         location /orders/ {
-          proxy_pass http://order-service:8081/;
+          set $upstream http://order-service.default.svc.cluster.local:8081;
+          proxy_pass $upstream/;
         }
         location /payments/ {
-          proxy_pass http://payment-service:8082/;
+          set $upstream http://payment-service.default.svc.cluster.local:8082;
+          proxy_pass $upstream/;
         }
         location /shipping/ {
-          proxy_pass http://shipping-service:8083/;
+          set $upstream http://shipping-service.default.svc.cluster.local:8083;
+          proxy_pass $upstream/;
         }
         location / {
-          return 200 'Welcome to Ecommerce Microservices Gateway';
-          add_header Content-Type text/plain;
+          set $upstream http://frontend-service.default.svc.cluster.local:80;
+          proxy_pass $upstream$request_uri;
         }
       }
     }
